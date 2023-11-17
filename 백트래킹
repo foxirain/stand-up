@@ -1,1 +1,38 @@
+백트래킹의 구조
+
+case 1 >> promsing을 덮고 -> 안에서 if
+
+void BT(){
+
+  if(proming()){
+    if(end)
+
+    else
+      for(){  
+      }
+          
+  }
+
+}
+
+>> 미로 찾기 , 체스 문제 같은 처음에도 promising하면서 일단 다음단계로 넘어간뒤 현제 상황이 promising한지 판단할때 사용하면 편함. 즉 , 미리 놓아보고 현제 상황이 promising이냐 이말.
+
+case 2 >> for문에서 proming  ( 쉽고 좋음 )
+
+void BT(){
+
+ 
+  if(end)
+
+  else
+    for(){  
+      if(proming())
+    }
+          
+  }
+
+}
+
+>> 웬만해선 이거 쓰면 될듯.  다음 단계로 넘어 가기전에 promising한지 판단을 먼저 하고 보내는 거임. 정석적인 BT 형태
+
 
