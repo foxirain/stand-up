@@ -1,0 +1,4 @@
+#include <limits>
+
+const int INF = numeric_limits<int>::max();
+하면  INF 를 연결되어 있지 않다로 사용할 수 있음
