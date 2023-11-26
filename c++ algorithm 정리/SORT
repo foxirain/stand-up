@@ -1,0 +1,8 @@
+	for (auto& v : EDGE)
+		sort(v.begin(), v.end());  //1
+
+	for (auto v : EDGE)
+		sort(v.begin(), v.end());  //2
+
+2번 처럼 하면 정렬이 되지 않는다 v가 바뀌지 않기 때문, 항상 객체를 바꿀려면 &연산자가 붙어야 함을 인지해라
+
