@@ -1,0 +1,173 @@
+미로 문제할때 map[y][x] = 0 
+이런식으로 이미 지나온 길을 없앨때 BFS 상에서 for 문안에 해야지 큐에 중복으로 들어가는 것을 막을 수 있음
+
+#include <iostream>
+#include <queue>
+#include <algorithm>
+#include <tuple>
+using namespace std;
+
+int OPT_ANSWER = 100;
+
+bool promising(int y, int x, int h, int maze[][10]) {
+    if (x < 0 || x > 9)
+        return false;
+    if (y < 0 || y > 9)
+        return false;
+    if (h >= OPT_ANSWER)
+        return false;
+    if (maze[y][x] == 0)
+        return false;
+
+    return true;
+}
+
+int minimum_move(int maze[10][10]) {
+    queue<tuple<int, int, int>> q;
+    q.push(make_tuple(0, 0, 0));
+    vector<pair<int, int>> DIRET;
+    DIRET.push_back({ 0,1 });
+    DIRET.push_back({ 1,0 });
+    DIRET.push_back({ 0,-1 });
+    DIRET.push_back({ -1,0 });
+    int next_X{};
+    int next_Y{};
+    int next_H{};
+    int k = 0;
+    int now_X{};
+    int now_Y{};
+    int now_H{};
+
+
+    while (!q.empty()) {
+
+
+        now_Y = get<0>(q.front());
+        now_X = get<1>(q.front());
+        now_H = get<2>(q.front());
+        //cout << q.size() << " " << now_H << '\n';
+
+        if (now_Y == 9 && now_X == 9) {
+            k = now_H;
+            break;
+        }
+
+
+
+        q.pop();
+
+        for (int i = 0; i < 4; i++) {
+            next_Y = now_Y + DIRET[i].first;
+            next_X = now_X + DIRET[i].second;
+            next_H = now_H + 1;
+
+            if (promising(next_Y, next_X, next_H, maze)) {
+                q.push({ next_Y , next_X , next_H });
+                maze[next_Y][next_X] = 0;
+
+            }
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+    if (k == 0)
+        return -1;
+    return k + 1;
+}
+
+이게 올바른 코드
+
+
+#include <iostream>
+#include <queue>
+#include <algorithm>
+#include <tuple>
+using namespace std;
+
+int OPT_ANSWER = 100;
+
+bool promising(int y, int x, int h, int maze[][10]) {
+    if (x < 0 || x > 9)
+        return false;
+    if (y < 0 || y > 9)
+        return false;
+    if (h >= OPT_ANSWER)
+        return false;
+    if (maze[y][x] == 0)
+        return false;
+
+    return true;
+}
+
+int minimum_move(int maze[10][10]) {
+    queue<tuple<int, int, int>> q;
+    q.push(make_tuple(0, 0, 0));
+    vector<pair<int, int>> DIRET;
+    DIRET.push_back({ 0,1 });
+    DIRET.push_back({ 1,0 });
+    DIRET.push_back({ 0,-1 });
+    DIRET.push_back({ -1,0 });
+    int next_X{};
+    int next_Y{};
+    int next_H{};
+    int k = 0;
+    int now_X{};
+    int now_Y{};
+    int now_H{};
+
+
+    while (!q.empty()) {
+
+
+        now_Y = get<0>(q.front());
+        now_X = get<1>(q.front());
+        now_H = get<2>(q.front());
+        //cout << q.size() << " " << now_H << '\n';
+
+        if (now_Y == 9 && now_X == 9) {
+            k = now_H;
+            break;
+        }
+        maze[now_Y][now_X] = 0;
+
+
+        q.pop();
+
+        for (int i = 0; i < 4; i++) {
+            next_Y = now_Y + DIRET[i].first;
+            next_X = now_X + DIRET[i].second;
+            next_H = now_H + 1;
+
+            if (promising(next_Y, next_X, next_H, maze)) {
+                q.push({ next_Y , next_X , next_H });
+              
+
+            }
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+    if (k == 0)
+        return -1;
+    return k + 1;
+}
+
+
+내가 메모리 초과가 난 코드
+
