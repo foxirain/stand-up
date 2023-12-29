@@ -1,0 +1,52 @@
+도커 >>  걍 신임  의존성 문제를 모두 해결 가능
+ex ) 서버가 우분투 18.04 여서 파이썬 버젼이나 다른 npm 같은 버젼에 한계가 있을시
+이걸 curl이나 git으로 다운로드? 말이 안됨
+
+그래서 일단 docker-compose 무조건 사용해야함 > 의존성 ,  버젼 관리 존나 쉬워짐
+
+
+일단 저는 모듈화를 좋아해서 client(프론트) , server(백) , DB(데이터베이스) 을 각각 다른 도커에서 실행함
+
+root@kamja:/myproject# ls
+client  docker-compose.yml  mysql  server    //  디렉토리 구조
+
+
+root@kamja:/myproject# more do*    // docker-compose.yml 파일 보기
+version: '3.8'
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "80:3000"      // http 에서 3000포트(react)로
+    stdin_open: true
+    tty: true
+  server:
+    build: ./server
+    ports:
+      - "8000:8000"      // 호스트시스템(진짜 리눅스 서버)의 8000 포트(fastapi)를 컨테이너(도커)의 8000과 매핑
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: "dnpqtjqj123!"
+      MYSQL_DATABASE: "mydatabase"
+      MYSQL_USER: "myuser"
+      MYSQL_PASSWORD: "myuser123!"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql        //그 데이터베이스 기록들을 여기다(호스트 서버임) 저장해서 도커가 중지되어도 데이터베이스 정보는 남아 있음( 스키마 , 테이블 정보들 , )
+      - mysql-data:/var/lib/mysql                                    // 이건 도커 내부에서 어디에 연결하냐는 것
+
+volumes:
+  mysql-data:
+
+
+
+
+
+
+
+
