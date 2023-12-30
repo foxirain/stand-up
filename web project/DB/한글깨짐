@@ -1,0 +1,24 @@
+CREATE DATABASE IF NOT EXISTS mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE mydatabase;
+CREATE TABLE IF NOT EXISTS USER (
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    PRIMARY KEY (username)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+
+이런식으로 만들때 utf8 설정하고 
+
+connection = mysql.connector.connect(
+    host=host_name,
+    user=user_name,
+    passwd=user_password,
+    database=db_name,
+    charset='utf8mb4'    //이런식으로 통신할때 규칙 설정
+)
+
+이래도 리눅스 mysql은 ??? 로 뜰수 있음;
+
+mysql> SET NAMES utf8mb4;
+
+이런식으로 설정해놔야 한글로 보임
